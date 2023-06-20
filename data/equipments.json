@@ -1,0 +1,37 @@
+{
+    "E1": {
+        "id": "E1",
+        "name": "Computer 1",
+        "specifications": ["CPU 8GB RAM", "GPU"],
+        "hire_unit": 12,
+        "quality": 10
+    },
+    "E2": {
+        "id": "E2",
+        "name": "Computer 2",
+        "specifications": ["CPU 16GB RAM", "GPU"],
+        "hire_unit": 10,
+        "quality": 9
+    },
+    "E3": {
+        "id": "E3",
+        "name": "Laptop 1",
+        "specifications": ["CPU 8GB RAM", "SSD"],
+        "hire_unit": 8,
+        "quality": 8
+    },
+    "E4": {
+        "id": "E4",
+        "name": "Printer 1",
+        "specifications": ["Inkjet", "Color"],
+        "hire_unit": 5,
+        "quality": 7
+    },
+    "E5": {
+        "id": "E5",
+        "name": "Projector 1",
+        "specifications": ["Full HD", "HDMI"],
+        "hire_unit": 7,
+        "quality": 9
+    }
+}

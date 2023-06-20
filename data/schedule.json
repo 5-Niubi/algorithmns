@@ -1,0 +1,100 @@
+{
+
+  "T1.0": {
+    "Tid": "START",
+    "duration": 0,
+    "required_skills": [],
+    "required_equipments": [],
+    "pred": []
+  },
+
+  "T1.1": {
+    "Tid": "T1.1",
+    "duration": 3,
+    "required_skills": ["S1_1","S2_1","S3_1"],
+    "required_equipments": ["E1_1","E2_1","E3_1"],
+    "pred": ["START"]
+  },
+  "T1.2": {
+    "Tid": "T1.2",
+    "duration": 5,
+    "required_skills": ["S1_4","S2_2","S3_1"],
+    "required_equipments": ["E1_1","E2_1","E3_1"],
+    "pred": ["START"]
+  },
+
+  "T1.3": {
+    "Tid": "T1.3",
+    "duration": 5,
+    "required_skills": ["S5_1","S3_5","S4_1"],
+    "required_equipments": ["E1_1","E2_1","E3_1"],
+    "pred": ["T1.2"]
+  },
+
+  "T1.4": {
+    "Tid": "T1.4",
+    "duration": 5,
+    "required_skills": ["S1_6","S2_1","S3_1"],
+    "required_equipments": ["E1_1","E2_1","E3_1"],
+    "pred": ["T1.1"]
+  },
+  
+  "T1.5": {
+    "Tid": "T1.5",
+    "duration": 2,
+    "required_skills": ["S1_1","S3_5","S4_5"],
+    "required_equipments": ["E1_1","E2_1","E3_1"],
+    "pred": ["T1.4", "T1.3"]
+  },
+  
+  "T1.6": {
+    "Tid": "T1.6",
+    "duration": 1,
+    "required_skills": ["S1_1","S2_1","S3_1"],
+    "required_equipments": ["E1_1","E2_1","E3_1"],
+    "pred": ["T1.3"]
+  },
+  
+  "T1.7": {
+    "Tid": "T1.7",
+    "duration": 1,
+    "required_skills": ["S4_1","S2_5","S3_1"],
+    "required_equipments": ["E1_1","E2_1","E3_1"],
+    "pred": ["T1.3"]
+  },
+
+  "T1.8": {
+    "Tid": "T1.8",
+    "duration": 1,
+    "required_skills": ["S5_1","S1_5","S2_1"],
+    "required_equipments": ["E1_1","E2_1","E3_1"],
+    "pred": ["T1.6", "T1.5"]
+  },
+
+  "T1.9": {
+    "Tid": "T1.9",
+    "duration": 1,
+    "required_skills": ["S3_1","S1_5","S2_1"],
+    "required_equipments": ["E3_1","E1_1","E5_1"],
+    "pred": ["T1.3", "T1.5", "T1.7","T1.4"]
+  },
+
+  "T1.10": {
+    "Tid": "T1.10",
+    "duration": 1,
+    "required_skills": ["S5_1","S1_5","S4_1"],
+    "required_equipments": ["E1_1","E2_1","E3_1"],
+    "pred": [ "T1.6",  "T1.4", "T1.5"]
+  },
+
+ 
+  "T1.11": {
+    "Tid": "END",
+    "duration": 0,
+    "required_skills": [],
+    "required_equipments": [],
+    "pred": [  "T1.8", "T1.10", "T1.9"]
+  }
+
+
+}

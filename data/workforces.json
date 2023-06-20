@@ -1,0 +1,71 @@
+{
+    "W1": {
+        "id": "W1",
+        "name": "John Smith",
+        "skills": ["S1_2", "S2_2", "S3_2",  "S4_1"],
+        "salary_unit": 10
+    },
+
+    "W2": {
+        "id": "W2",
+        "name": "Nguyen Duc Trung",
+        "skills": ["S1_2", "S2_2", "S3_5", "S5_3", "S4_2"],
+        "salary_unit": 10
+    },
+
+    "W3": {
+        "id": "W3",
+        "name": "John Smith",
+        "skills": ["S1_2", "S2_2", "S3_2",  "S5_3", "S4_2"],
+        "salary_unit": 10
+    },
+
+    "W4": {
+        "id": "W4",
+        "name": "Emily Johnson",
+        "skills": ["S1_2", "S6_2", "S3_2",  "S5_3", "S4_2",  "S5_2"],
+        "salary_unit": 8
+    },
+
+    "W5": {
+        "id": "W5",
+        "name": "Michael Williams",
+        "skills": ["S1_3", "S2_3", "S3_3"],
+        "salary_unit": 9
+    },
+
+    "W6": {
+        "id": "W6",
+        "name": "Jessica Davis",
+        "skills": ["S1_3", "S6_3", "S3_3"],
+        "salary_unit": 9
+    },
+
+    "W7": {
+        "id": "W7",
+        "name": "David Rodriguez",
+        "skills": ["S1_4", "S5_4", "S3_2"],
+        "salary_unit": 10
+    },
+
+    "W8": {
+        "id": "W8",
+        "name": "Emma Martinez",
+        "skills": ["S1_4", "S3_5", "S4_5"],
+        "salary_unit": 12
+    },
+
+    "W9": {
+        "id": "W9",
+        "name": "Daniel Lee",
+        "skills": ["S1_2", "S3_5", "S4_5"],
+        "salary_unit": 11
+    },
+
+    "W10": {
+        "id": "W10",
+        "name": "Olivia Taylor",
+        "skills": ["S1_5", "S2_3", "S3_5"],
+        "salary_unit": 10
+    }
+}

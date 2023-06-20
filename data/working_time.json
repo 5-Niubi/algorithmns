@@ -1,0 +1,122 @@
+{
+    "W1": {
+        "current_projects": [
+            {
+                "project_id": "ABC",
+                "start_date": "12/6/2023",
+                "finish_date": "1/7/2023",
+                "workload_time": [
+                    [0, 6],
+                    [7, 12],
+                    [15, 2]
+                ]
+            }
+        ],
+        "workofweek": [1, 3, 4]
+    },
+    "W2": {
+        "current_projects": [
+            {
+                "project_id": "ABC",
+                "start_date": "12/6/2023",
+                "finish_date": "1/7/2023",
+                "workload_time": [
+                    [0, 6],
+                    [7, 12],
+                    [15, 2]
+                ]
+            }
+        ],
+        "workofweek": [1, 3, 4]
+    },
+    "W3": {
+        "current_projects": [
+            {
+                "project_id": "XYZ",
+                "start_date": "15/6/2023",
+                "finish_date": "30/6/2023",
+                "workload_time": [
+                    [8, 12],
+                    [13, 16],
+                    [18, 3]
+                ]
+            }
+        ],
+        "workofweek": [0, 1, 2, 3, 4, 5]
+    },
+    "W4": {
+        "current_projects": [
+            {
+                "project_id": "XYZ",
+                "start_date": "15/6/2023",
+                "finish_date": "30/6/2023",
+                "workload_time": [
+                    [8, 12],
+                    [13, 16],
+                    [18, 3]
+                ]
+            }
+        ],
+        "workofweek": [0, 1, 2, 3, 4, 5]
+    },
+    "W5": {
+        "current_projects": [
+            {
+                "project_id": "XYZ",
+                "start_date": "15/6/2023",
+                "finish_date": "30/6/2023",
+                "workload_time": [
+                    [9, 13],
+                    [14, 18],
+                    [20, 4]
+                ]
+            }
+        ],
+        "workofweek": [0, 1, 2, 3, 4, 5]
+    },
+    "W6": {
+        "current_projects": [
+            {
+                "project_id": "XYZ",
+                "start_date": "15/6/2023",
+                "finish_date": "30/6/2023",
+                "workload_time": [
+                    [9, 13],
+                    [14, 18],
+                    [20, 4]
+                ]
+            }
+        ],
+        "workofweek": [0, 1, 2, 3, 4, 5]
+    },
+    "W7": {
+        "current_projects": [
+            {
+                "project_id": "LMN",
+                "start_date": "10/6/2023",
+                "finish_date": "25/6/2023",
+                "workload_time": [
+                    [8, 12],
+                    [13, 17],
+                    [19, 2]
+                ]
+            }
+        ],
+        "workofweek": [0, 1, 2, 3, 4, 5]
+    },
+    "W8": {
+        "current_projects": [
+            {
+                "project_id": "LMN",
+                "start_date": "10/6/2023",
+                "finish_date": "25/6/2023",
+                "workload_time": [
+                    [8, 12],
+                    [13, 17],
+                    [19, 2]
+                ]
+            }
+        ],
+        "workofweek": [0, 1, 2, 3, 4, 5]
+    }
+}
