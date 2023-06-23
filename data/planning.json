@@ -52,7 +52,7 @@
       "T1.5": {
         "task_id": "T1.5",
         "alias_name": "Implement churn prediction model",
-        "duration": 5,
+        "duration": 16,
         "required_skills": ["S.MLE_3", "S.DEEP_1"],
         "required_equipments": [],
         "predence": ["T1.4", "T1.3"]
@@ -71,7 +71,7 @@
       "T1.7": {
         "task_id": "T1.7",
         "alias_name": "Implement funcs 1",
-        "duration": 5,
+        "duration": 10,
         "required_skills": ["S.JAVA_3"],
         "required_equipments": ["E1_1","E2_1","E3_1"],
         "predence": ["T1.4"]
@@ -80,7 +80,7 @@
       "T1.8": {
         "task_id": "T1.8",
         "alias_name": "Implement funcs 2",
-        "duration": 5,
+        "duration": 15,
         "required_skills": ["S.DOTNET_5"],
         "required_equipments": ["E1_1","E2_1","E3_1"],
         "predence": ["T1.4"]
@@ -89,7 +89,7 @@
       "T1.9": {
         "task_id": "T1.9",
         "alias_name": "Implement microservice for model churn prediction",
-        "duration": 5,
+        "duration": 3,
         "required_skills": ["S.JAVA_5"],
         "required_equipments": ["T1.5"],
         "predence": ["T1.5"]

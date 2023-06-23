@@ -47,6 +47,13 @@
         "name": "EMPLOYEER PATH TIME 1",
         "skills": ["S.MLE_5", "S.DEEP_5"],
         "salary_unit": 40
+    },
+
+    "W8": {
+        "id": "W8",
+        "name": "EMPLOYEER PATH TIME 2",
+        "skills": ["S.DOTNET_5"],
+        "salary_unit": 40
     }
 
 
