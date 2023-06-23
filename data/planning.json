@@ -1,0 +1,134 @@
+{
+  "planning_id": "PL0.1",
+  "alias_name": "churn prediction project",
+  "max_duration": 16,
+  
+  "schedule": {
+      "T1.0": {
+        "task_id": "START",
+        "alias_name": "",
+        "duration": 0,
+        "required_skills": [],
+        "required_equipments": [],
+        "predence": []
+      },
+     
+      "T1.1": {
+        "task_id": "T1.1",
+        "alias_name": "Design web front end",
+        "duration": 5,
+        "required_skills": ["S.ARCHITECTURE_3","S.DESIGN_3"],
+        "required_equipments": ["E1_1","E2_1","E3_1"],
+        "predence": ["START"]
+      },
+
+      "T1.2": {
+        "task_id": "T1.2",
+        "alias_name": "Design architecture",
+        "duration": 5,
+        "required_skills": ["S.ARCHITECTURE_4"],
+        "required_equipments": ["E1_1","E2_1","E3_1"],
+        "predence": ["START"]
+      },
+    
+      "T1.3": {
+        "task_id": "T1.3",
+        "alias_name": "Research churn prediction solution",
+        "duration": 5,
+        "required_skills": ["S.DS_4", "S.RESEACH_3"],
+        "required_equipments": ["E1_1","E2_1","E3_1"],
+        "predence": ["START"]
+      },
+
+      "T1.4": {
+        "task_id": "T1.4",
+        "alias_name": "Initial enviroment: dev, test, pro",
+        "duration": 5,
+        "required_skills": ["S.ARCHITECTURE_3"],
+        "required_equipments": ["E1_1","E2_1","E3_1"],
+        "predence": ["START"]
+      },
+
+      "T1.5": {
+        "task_id": "T1.5",
+        "alias_name": "Implement churn prediction model",
+        "duration": 5,
+        "required_skills": ["S.MLE_3", "S.DEEP_1"],
+        "required_equipments": [],
+        "predence": ["T1.4", "T1.3"]
+      },
+
+      "T1.6": {
+        "task_id": "T1.6",
+        "alias_name": "Implement web front end",
+        "duration": 5,
+        "required_skills": ["S.FRONTEND_4", "S.JAVASCRIP_5", "S.WEB_4"],
+        "required_equipments": [],
+        "predence": ["T1.4", "T1.1"]
+      },
+
+
+      "T1.7": {
+        "task_id": "T1.7",
+        "alias_name": "Implement funcs 1",
+        "duration": 5,
+        "required_skills": ["S.JAVA_3"],
+        "required_equipments": ["E1_1","E2_1","E3_1"],
+        "predence": ["T1.4"]
+      },
+
+      "T1.8": {
+        "task_id": "T1.8",
+        "alias_name": "Implement funcs 2",
+        "duration": 5,
+        "required_skills": ["S.DOTNET_5"],
+        "required_equipments": ["E1_1","E2_1","E3_1"],
+        "predence": ["T1.4"]
+      },
+
+      "T1.9": {
+        "task_id": "T1.9",
+        "alias_name": "Implement microservice for model churn prediction",
+        "duration": 5,
+        "required_skills": ["S.JAVA_5"],
+        "required_equipments": ["T1.5"],
+        "predence": ["T1.5"]
+      },
+
+      "T1.10": {
+        "task_id": "T1.10",
+        "alias_name": "Intergate front end and backend functions",
+        "duration": 5,
+        "required_skills": ["S.JAVA_3", "S.DOTNET_5"],
+        "required_equipments": ["E1_1","E2_1","E3_1"],
+        "predence": ["T1.8", "T1.7", "T1.6"]
+      },
+
+      "T1.11": {
+        "task_id": "T1.11",
+        "alias_name": "Intergate front end and microservice churn model",
+        "duration": 5,
+        "required_skills": ["S.JAVA_3", "S.DOTNET_5"],
+        "required_equipments": ["E1_1","E2_1","E3_1"],
+        "predence": ["T1.2", "T1.9",  "T1.6"]
+      },
+
+      "T1.12": {
+        "task_id": "T1.12",
+        "alias_name": "Testing",
+        "duration": 5,
+        "required_skills": ["S.DOTNET_5"],
+        "required_equipments": ["E1_1","E2_1","E3_1"],
+        "predence": ["T1.2", "T1.11", "T1.10"]
+      },
+
+      "T1.13": {
+        "task_id": "END",
+        "duration": 0,
+        "required_skills": [],
+        "required_equipments": [],
+        "predence": [ "T1.12"]
+      }
+
+  }
+}

@@ -1,71 +1,53 @@
 {
     "W1": {
         "id": "W1",
-        "name": "John Smith",
-        "skills": ["S1_2", "S2_2", "S3_2",  "S4_1"],
-        "salary_unit": 10
+        "name": "PHAM VAN MANH",
+        "skills": ["S.DS_3", "S.MLE_3", "S.DEEP_3","S.CLOUD_3", "S.ARCHITECTURE_4"],
+        "salary_unit": 18
     },
+
+    
 
     "W2": {
         "id": "W2",
-        "name": "Nguyen Duc Trung",
-        "skills": ["S1_2", "S2_2", "S3_5", "S5_3", "S4_2"],
-        "salary_unit": 10
+        "name": "NGUYEN DUC TRUNG",
+        "skills": ["S.JAVA_3", "S.DOTNET_3", "S.RESEACH_3","S.PM_3", "S.ARCHITECTURE_3"],
+        "salary_unit": 19
     },
 
     "W3": {
         "id": "W3",
-        "name": "John Smith",
-        "skills": ["S1_2", "S2_2", "S3_2",  "S5_3", "S4_2"],
-        "salary_unit": 10
+        "name": "NGUYEN KHANH HUY",
+        "skills": ["S.JAVA_5", "S.DOTNET_5", "S.ARCHITECTURE_5", "S.DESIGN_3"],
+        "salary_unit": 18
     },
-
+    
     "W4": {
         "id": "W4",
-        "name": "Emily Johnson",
-        "skills": ["S1_2", "S6_2", "S3_2",  "S5_3", "S4_2",  "S5_2"],
-        "salary_unit": 8
+        "name": "BUI TIEN DAT",
+        "skills": ["S.HTML_4", "S.JAVASCRIPT_5","S.DESIGN_5", "S.WEB_4"],
+        "salary_unit": 24
     },
-
+ 
     "W5": {
         "id": "W5",
-        "name": "Michael Williams",
-        "skills": ["S1_3", "S2_3", "S3_3"],
-        "salary_unit": 9
+        "name": "NGUYEN MANH QUY",
+        "skills": ["S.WEB_4", "S.FRONTEND_5","S.HTML_5","S.JAVASCRIP_5"],
+        "salary_unit": 24
     },
-
     "W6": {
         "id": "W6",
-        "name": "Jessica Davis",
-        "skills": ["S1_3", "S6_3", "S3_3"],
-        "salary_unit": 9
+        "name": "NGO TUNG SON",
+        "skills": ["S.DS_5", "S.ML_5", "S.DEEP_5", "S.ARCHITECTURE_5", "S.RESEACH_3"],
+        "salary_unit": 18
     },
 
     "W7": {
         "id": "W7",
-        "name": "David Rodriguez",
-        "skills": ["S1_4", "S5_4", "S3_2"],
-        "salary_unit": 10
-    },
-
-    "W8": {
-        "id": "W8",
-        "name": "Emma Martinez",
-        "skills": ["S1_4", "S3_5", "S4_5"],
-        "salary_unit": 12
-    },
-
-    "W9": {
-        "id": "W9",
-        "name": "Daniel Lee",
-        "skills": ["S1_2", "S3_5", "S4_5"],
-        "salary_unit": 11
-    },
-
-    "W10": {
-        "id": "W10",
-        "name": "Olivia Taylor",
-        "skills": ["S1_5", "S2_3", "S3_5"],
-        "salary_unit": 10
+        "name": "EMPLOYEER PATH TIME 1",
+        "skills": ["S.MLE_5", "S.DEEP_5"],
+        "salary_unit": 40
     }
+
+
 }

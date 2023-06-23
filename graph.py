@@ -21,7 +21,7 @@ class ScheduleGraph(nx.DiGraph):
         self.task_similarity_matrix = []
         self.workforce_timing = {}
         self.workforce_assignment= {}
-        self.task_skills_requqired = []
+        self.skills_set = {}
 
         super(ScheduleGraph, self).__init__(*agrs, **kawgs)
         self.setup()
@@ -32,13 +32,12 @@ class ScheduleGraph(nx.DiGraph):
     
 
     def load_schedule(self, schedule_data: dict) -> None:
-
         for t_name in schedule_data.keys():
-            required_skills =  {skill.split("_")[0]: int(skill.split("_")[1]) for skill in schedule_data[t_name]['required_skills']}
+            req_skills =  {skill.split("_")[0]: int(skill.split("_")[1]) for skill in schedule_data[t_name]['required_skills']}
             self.add_node(
                 schedule_data[t_name]['task_id'],
                 duration =  schedule_data[t_name]['duration'], 
-                required_skills = required_skills,
+                required_skills = req_skills,
                 start_time = 0,
                 finish_time = 0
                 )
@@ -48,9 +47,17 @@ class ScheduleGraph(nx.DiGraph):
                 for predencor in predencors:
                     self.add_edge(predencor, schedule_data[t_name]['task_id'])
             
-            # add required skills node's to task skills requqired graph's
-            self.task_skills_requqired.extend(required_skills)
-            self.task_skills_requqired = list(set(self.task_skills_requqired))
+
+            # add skill to required skills
+            for skill in req_skills:
+                if skill in self.skills_set:
+                    if self.skills_set[skill]['min_level'] < req_skills[skill]:
+                        self.skills_set[skill]['min_level'] = req_skills[skill]
+                
+                else:
+                    self.skills_set[skill] = {}
+                    self.skills_set[skill]['min_level'] = req_skills[skill]
+
 
         # calculate task task similarity matrix, create m x m (m is number task)
         executed_tasks = [node for node in self.nodes(data=True) if node[0] not in ['START', 'END']]
@@ -59,11 +66,11 @@ class ScheduleGraph(nx.DiGraph):
             task_id, data = task_data[0], task_data[1]
             if task_id not in ['START', 'END']:
                 similar_vector  = []
-                # mapping required skills task to vector with shape (1 x len(task_skills_requqired))
-                required_skills_vector = [data['required_skills'].get(skill, 0) for skill in self.task_skills_requqired]
+                # mapping required skills task to vector with shape (1 x len(skill set))
+                required_skills_vector = [data['required_skills'].get(skill, 0) for skill in list(self.skills_set)]
                 for _, data in executed_tasks:
-                    # mapping required skills task to vector with shape (1 x len(task_skills_requqired))
-                    _required_skills_vector = [ data['required_skills'].get(skill, 0) for skill in self.task_skills_requqired]
+                    # mapping required skills task to vector with shape (1 x len(skill set))
+                    _required_skills_vector = [ data['required_skills'].get(skill, 0) for skill in list(self.skills_set)]
 
                     
                     similarity_score = cosine_similarity(np.array([required_skills_vector, _required_skills_vector]))[1][0]
@@ -75,19 +82,18 @@ class ScheduleGraph(nx.DiGraph):
         self.task_list = list([node for node in self.nodes() if node not in ['START', 'END']])
 
     def load_workforce(self, workforce_data: dict):
-
         # 1 similarity score of each skills workforce and each requied skills task
         # 2 calculate cost workforce
         for node, data in self.nodes(data=True):
             workforce_similarity, workforce_cost, available_workforce = {}, {}, {}
-            # 1.1 mapping required skills task to vector with shape (1 x len(task_skills_requqired))
-            required_skills_vector = [data['required_skills'].get(skill, 0) for skill in self.task_skills_requqired]
+            # 1.1 mapping required skills task to vector with shape (1 x len(skills_set))
+            required_skills_vector = [data['required_skills'].get(skill, 0) for skill in list(self.skills_set)]
             
             if node not in ['START', 'END']:
                 for wf in workforce_data:
-                    # 1.2 mapping required skills task to vector with shape (1 x len(task_skills_requqired))
+                    # 1.2 mapping required skills task to vector with shape (1 x len(skills_set))
                     workforce_skills = {skill.split("_")[0]: int(skill.split("_")[1]) for skill in  workforce_data[wf]['skills']}
-                    workforce_skills_vector  = [workforce_skills.get(skill, 0) for skill in self.task_skills_requqired]
+                    workforce_skills_vector  = [workforce_skills.get(skill, 0) for skill in list(self.skills_set)]
                     
                     # similarity score between workforce and task
                     similarity_score = cosine_similarity(np.array([required_skills_vector, workforce_skills_vector]))[1][0]
@@ -97,7 +103,10 @@ class ScheduleGraph(nx.DiGraph):
 
                     # cost workforce 
                     workforce_cost[wf]  = workforce_data[wf]['salary_unit'] * data['duration']
-
+                
+                # VALIDATE: Must exited at least one workforce available
+                if sum(value == True for value in available_workforce.values()) == 0:
+                    raise ValueError(f"No available workforce satisfies the required skills for Task {node}, required skills: {self.nodes[node]['required_skills']}.")
                 nx.set_node_attributes(self,  {node: {"workforce_similarity": workforce_similarity, "workforce_cost": workforce_cost, "available_workforce": available_workforce}})
         
         # update workforce list
