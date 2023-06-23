@@ -15,17 +15,22 @@ class ScheduleGraph(nx.DiGraph):
         
         self.task_list = None
         self.workforce_list = None
+        
         self.schedule_data = None
         self.workforce_data = None
 
         self.task_similarity_matrix = []
+        
         self.workforce_timing = {}
         self.workforce_assignment= {}
         self.skills_set = {}
 
+        self.planned_duration = None
+        self.planned_budget = None
+
         super(ScheduleGraph, self).__init__(*agrs, **kawgs)
         self.setup()
-        
+    
     def setup(self):
         self.workforce_timing = {f"W_default_{node}": [0] for node in self.nodes}
         self.workforce_assignment= {node: f"W_default_{node}" for node in self.nodes}
@@ -71,8 +76,6 @@ class ScheduleGraph(nx.DiGraph):
                 for _, data in executed_tasks:
                     # mapping required skills task to vector with shape (1 x len(skill set))
                     _required_skills_vector = [ data['required_skills'].get(skill, 0) for skill in list(self.skills_set)]
-
-                    
                     similarity_score = cosine_similarity(np.array([required_skills_vector, _required_skills_vector]))[1][0]
                     similar_vector.append(similarity_score)
 
@@ -118,73 +121,105 @@ class ScheduleGraph(nx.DiGraph):
         # init workforce timming
         self.init_workforce_timing()
 
+
     def init_workforce_timing(self):
         # set default working timeing:
         for wf in self.workforce_data:
             self.workforce_timing[wf] = [0]
 
+    def set_planned_duration_constraint(self, duration: int):
+        self.planned_duration = duration
+
+    def set_budget_contraints(self, budget: float):
+        self.planned_budget = budget
+
+
+    def calculate_cost_schedule(self):
+        actual_cost = 0
+        for task in self.task_list:
+            workforce_cost = self.nodes[task]['workforce_cost']
+            assigned_workforce = self.workforce_assignment[task]
+            actual_cost += workforce_cost[assigned_workforce]
+        return actual_cost
+
+    def calculate_mapping_similarity(self):
+        mapping_similarity = 0
+        for task in self.task_list:
+            workforce_similarity = self.nodes[task]['workforce_similarity']
+            available_workforce =  self.nodes[task]['available_workforce']
+            assigned_workforce = self.workforce_assignment[task]
+
+            if available_workforce[assigned_workforce] == True:
+                mapping_similarity += workforce_similarity[assigned_workforce]
+            else:
+                mapping_similarity += -999999
+        return mapping_similarity
+    
+    
+
+    def calculate_assigned_similarity(self):
+        assinged_similarity = 0
+        tasks_group_by_workforce = {}
+        for task in self.workforce_assignment:
+            assined_workforce = self.workforce_assignment[task]
+            if  assined_workforce not in tasks_group_by_workforce:
+                tasks_group_by_workforce[assined_workforce] = []
+            
+            tasks_group_by_workforce[assined_workforce].append(task)
+
+        # calculate overall task similarity assigned by workforce
+        for workforce in tasks_group_by_workforce:
+            assgined_tasks = tasks_group_by_workforce[workforce]
+            for task in assgined_tasks:
+                task_i = self.task_list.index(task)
+                for task in assgined_tasks:
+                    task_j = self.task_list.index(task)
+                    assinged_similarity += self.task_similarity_matrix[task_i][task_j]/len(assgined_tasks) 
+
+        return assinged_similarity
+
 
     def apply_assignment(self, assignment_data: dict = {}, assignment_list: list = []) -> None:
-        
-        overall_cost = 0
-        overall_skill_similarity = 0
-        overall_task_similarity = 0
-        task_queues = {}
-   
         if assignment_list != []: 
             self.workforce_assignment = {list(self.nodes)[i+1]:list(self.workforce_data.keys())[assignment_list[i]] for i in  range(len(assignment_list))}
         else:
             self.workforce_assignment = assignment_data
+        
         # init workforce timing
         self.init_workforce_timing()
-    
-        # calculate cost & skill similarity  assigned by each workforce
-        for task in self.task_list:
-            
-            data = self.nodes[task]
-            workforce = self.workforce_assignment[task]
 
-            workforce_cost = data['workforce_cost']
-            workforce_similarity = data['workforce_similarity']
-            available_workforce = data['available_workforce']
-            
-            # 1. calculate cost
-            # 1.1 check avaible workforce
-            if available_workforce[workforce] == True:
-                overall_skill_similarity += workforce_similarity[workforce]
-            else:
-                overall_skill_similarity += -999999
-
-            # 2. calculate skill similarity
-            overall_cost += workforce_cost[workforce]
+        # forward from start to update start, end time in each task
+        self.schedule(start_node = 'START')
 
 
-            if self.workforce_assignment[task] not in task_queues:
-                task_queues[workforce] = []
-            
-            task_queues[workforce].append(task)
+        # estimate with assigment data
+        # 1. cost by workforce
+        actual_cost = self.calculate_cost_schedule()
+       
+        # 2. mapping similarity
+        mapping_similarity = self.calculate_mapping_similarity()
+        
+        # 3. assigned task similarity
+        assigned_similarity = self.calculate_assigned_similarity()
+        
+        # 4. duration
+        actual_duration= self.nodes['END']['finish_time']
         
 
-        # calculate overall task similarity assigned by workforce
-        # calculate overall task similarity assigned by workforce
-        for task in task_queues:
-            task_queue = task_queues[workforce]
-            for node in task_queue:
-                
-                task_i = self.task_list.index(node)
-                for task in task_queue:
-                    task_j = self.task_list.index(node)
-                    overall_task_similarity += self.task_similarity_matrix[task_i][task_j]/len(task_queue)
-
-        # calculate completed_time
-        self.schedule(start_node = 'START')
-        completed_time = self.nodes['END']['finish_time']
+        # 5. validate budget
+        cost_variance =  self.planned_budget - actual_cost 
+        
+        # 6. validate complete time
+        schedule_variance =  self.planned_duration - actual_duration 
 
         results = {
-            "overall_cost": overall_cost, 
-            "overall_skill_similarity": overall_skill_similarity, 
-            "overall_task_similarity": overall_task_similarity, 
-            "completed_time": completed_time
+            "actual_cost": actual_cost, 
+            "mapping_similarity": mapping_similarity, 
+            "assigned_similarity": assigned_similarity, 
+            "actual_duration": actual_duration,
+            "schedule_variance": schedule_variance,
+            "cost_variance": cost_variance
+
 
         }
 
@@ -219,33 +254,35 @@ class ScheduleGraph(nx.DiGraph):
 
     
     def schedule(self, start_node: str):
+        # use bfs to forword from start node -> end node
         visited = set()
         queue = deque([start_node])
-
         while queue:
             node = queue.popleft()
             if node not in visited:
-
                 if node != start_node:
+                    # At each node will check predecessors node's was visited? If visited then update start time, end time
                     predecessors = list(self.predecessors(node))
-                    # check predecessors node's was visited
+
+                    # Check predecessors node's was visited
                     if len(set(predecessors) & set(visited)) == len(predecessors):
                         visited.add(node)
-
-                        early_start_time = max([self.nodes[node]['finish_time'] + 1 for node in predecessors])
-                        finish_time =  early_start_time +  self.nodes[node]["duration"]
+                        
+                        start_time = max([self.nodes[node]['finish_time'] + 1 for node in predecessors])
+                        finish_time =  start_time +  self.nodes[node]["duration"] - 1
 
                         if node != 'END':
                             workforce = self.workforce_assignment[node]
                             working_days = self.workforce_timing[workforce]
 
                             # check working time in this task overlap with running time worker's?
-                            if len(set(range(early_start_time, finish_time + 1)) & set(working_days)) > 0:
-                                early_start_time = max(working_days) + 1
-                                finish_time =  early_start_time +  self.nodes[node]["duration"]
+                            if len(set(range(start_time, finish_time + 1)) & set(working_days)) > 0:
+                                start_time = max(working_days) + 1
+                                finish_time =  start_time +  self.nodes[node]["duration"]
 
-                            self.workforce_timing[workforce].extend(range(early_start_time, finish_time + 1))
-                        nx.set_node_attributes(self,  {node: {"start_time": early_start_time, "finish_time": finish_time}})
+                            self.workforce_timing[workforce].extend(range(start_time, finish_time + 1))
+                        
+                        nx.set_node_attributes(self,  {node: {"start_time": start_time, "finish_time": finish_time}})
                     
                 elif node == start_node:
                     visited.add(node)
