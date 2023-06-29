@@ -1,4 +1,5 @@
 import networkx as nx
+
 from networkx.drawing.nx_pydot import graphviz_layout
 import matplotlib.pyplot as plt
 from collections import deque
@@ -219,7 +220,6 @@ class ScheduleGraph(nx.DiGraph):
             "actual_duration": actual_duration,
             "schedule_variance": schedule_variance,
             "cost_variance": cost_variance
-
 
         }
 

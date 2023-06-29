@@ -1,39 +1,58 @@
 ﻿using defaultnamespace;
-
+using Gurobi;
+using System.Collections;
+using System.Diagnostics;
 public class Program{
+
+    
+
     public static void Main(string[] args){
-        List<int> durationOfTasks = new List<int>() {  0, 6, 3, 4, 3, 2, 2, 0};
-        List<List<int>> skillOfTasks = new List<List<int>>()
-        {
-            new List<int>() { 0, 2, 2, 1, 0, 0, 5 , 0},
-            new List<int>() { 0, 1, 3, 0, 0, 1, 0 , 0},
-            new List<int>() { 0, 0, 0, 0, 2, 2, 0 , 0},
-            new List<int>() { 0, 1, 0, 4, 0, 0, 0 , 0},
-            new List<int>() { 0, 1, 1, 2, 0, 0, 0 , 0},
+
+        DataReader reader = new DataReader();
         
-            
-        };
 
-        List<List<int>> predenceTasks = new List<List<int>>()
+        List<int> durationOfTasks = new List<int> (reader.TaskDuration);
+
+        List<List<int>> taskOfSkill = new List<List<int>>();
+
+        for (int i = 0; i < reader.TaskExper.GetLength(0); i++)
         {
+            List<int> rowList = new List<int>();
+            for (int j = 0; j < reader.TaskExper.GetLength(1); j++)
+            {
+                rowList.Add(reader.TaskExper[i, j]);
+            }
+            taskOfSkill.Add(rowList);
+        }
 
-            new List<int>() { 0, 1, 1, 0, 0, 0, 0 , 0},
-            new List<int>() { 0, 0, 0, 1, 1, 0, 0 , 0},
-            new List<int>() { 0, 0, 0, 0, 0, 1, 0 , 0},
-            new List<int>() { 0, 0, 0, 0, 0, 0, 1 , 0},
-            new List<int>() { 0, 0, 0, 0, 0, 0, 1 , 0},
-            new List<int>() { 0, 0, 0, 0, 0, 0, 0 , 1},
-            new List<int>() { 0, 0, 0, 0, 0, 0, 0 , 1},
-            new List<int>() { 0, 0, 0, 0, 0, 0, 0 , 0},
+        List<List<int>> predenceTasks = new List<List<int>>();
 
-        };
+        for (int i = 0; i < reader.TaskAdjacency.GetLength(0); i++)
+        {
+            List<int> rowList = new List<int>();
+            for (int j = 0; j < reader.TaskAdjacency.GetLength(1); j++)
+            {
+                rowList.Add(reader.TaskAdjacency[i, j]);
+            }
+            predenceTasks.Add(rowList);
+        }
+
+
+
+    
         
-        Graph graph = new Graph(0, 7, durationOfTasks, skillOfTasks, predenceTasks);
-        graph.UpdateTaskSchedule();
-        graph.estimateAssignment();
+        
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
 
+        ScheduleEstimator estimator = new ScheduleEstimator( durationOfTasks, taskOfSkill, predenceTasks);
+        estimator.ForwardMethod();
+        estimator.Fit();
 
+        stopwatch.Stop();
 
-       
+        TimeSpan elapsedTime = stopwatch.Elapsed;
+        Console.WriteLine("Elapsed Time: " + elapsedTime.TotalMilliseconds + " milliseconds");
+        
     }
 }
