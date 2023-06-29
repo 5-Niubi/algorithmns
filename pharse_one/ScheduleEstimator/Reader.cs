@@ -36,7 +36,10 @@ namespace Gurobi
         
         private const int BufferSize = 128;
         public DataReader(){
-            
+            InitializerV2();
+        }
+        
+        private void InitializerV2(){
             String TaskAdjacencyPath = Path.Combine(dataPath, "task_matrix.txt");
             String TaskExperPath = Path.Combine(dataPath, "skill.txt");
             String TaskDurationPath = Path.Combine(dataPath, "duration.txt");
@@ -56,9 +59,10 @@ namespace Gurobi
                     for(int j = 0; j < arrString.Length; j++){
                         TaskExper[i, j] = Convert.ToInt32(arrString[j]);
                     }
-                    i += 1;
-                    
+                    i += 1;  
                 }
+
+                
 
             }
 
@@ -80,8 +84,7 @@ namespace Gurobi
                     }
                     i += 1;
                 }
-
-
+                NumOfTasks = TaskAdjacency.Length;
             }
 
             // Read TaskDuration file
@@ -101,13 +104,8 @@ namespace Gurobi
                 }
 
             }
-
-
         }
-        
-
-        
-      
+    
 
         private void Initializer()
         {
