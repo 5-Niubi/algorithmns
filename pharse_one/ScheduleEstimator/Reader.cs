@@ -32,7 +32,7 @@ namespace Gurobi
             @"/Users/pvm/Desktop/algorithmns/pharse_one/ScheduleEstimator/data/data.txt";
 
          private const string dataPath = 
-            @"/Users/pvm/Desktop/algorithmns/1688022293";
+            @"/Users/pvm/Desktop/algorithmns/1688024482";
         
         private const int BufferSize = 128;
         public DataReader(){
@@ -52,11 +52,9 @@ namespace Gurobi
                 // Convert TaskExper to matrix
                 while ((line = streamReader.ReadLine()) != null)
                 {
-
                     string[] arrString = line.Split(" ");
-                    
-                    for(int j = 0; j < arrString.size; j++){
-                        TaskExper[i, j] = convert.ToInt32(str);
+                    for(int j = 0; j < arrString.Length; j++){
+                        TaskExper[i, j] = Convert.ToInt32(arrString[j]);
                     }
                     i += 1;
                     
@@ -64,24 +62,23 @@ namespace Gurobi
 
             }
 
-
-
-
             // Read TaskAdjacency file
             using (var taskAdjacencyFileStream = File.OpenRead(TaskAdjacencyPath))
             using (var streamReader = new StreamReader(taskAdjacencyFileStream, Encoding.UTF8))
             {
                 string line;
                 string[] arrString;
-                // doc ma tran precedences
-                for (int i = 0; i < NumOfTasks; i++)
+                
+                int i = 0;
+                while ((line = streamReader.ReadLine()) != null)
                 {
-                    line = streamReader.ReadLine();
                     arrString = line.Split(" ");
-                    for (int j = 0; j < NumOfTasks; j++)
+
+                    for (int j = 0; j < arrString.Length; j++)
                     {
                         TaskAdjacency[i, j] = Convert.ToInt32(arrString[j]);
                     }
+                    i += 1;
                 }
 
 
@@ -93,12 +90,13 @@ namespace Gurobi
             {
                 string line;
                 string[] arrString;
+               
                 line = streamReader.ReadLine();
                 arrString = line.Split(" ");
-                for (int j = 0; j < NumOfTasks; j++)
-                {
-                    int duration = Convert.ToInt32(arrString[j]);
-                    TaskDuration[j] = duration;
+                
+                for (int i = 0; i < arrString.Length; i++){
+                    int duration = Convert.ToInt32(arrString[i]);
+                    TaskDuration[i] = duration;
 
                 }
 

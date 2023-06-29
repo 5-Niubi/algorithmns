@@ -36,11 +36,6 @@ public class Program{
             }
             predenceTasks.Add(rowList);
         }
-
-
-
-    
-        
         
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
